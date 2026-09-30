@@ -21,3 +21,7 @@ Send:
 6. Optional concert/contact/social links
 
 The prototype currently uses placeholder content in `index.html`.
+
+
+## Live deployment
+GitHub Pages deployment is configured from the `main` branch via `.github/workflows/pages.yml`.
