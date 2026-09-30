@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Elegant pianist portfolio prototype." />
+  <title>Artist Name — Pianist</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --ink:#0b0b0d;
+      --ink-soft:#151419;
+      --ivory:#f5f0e6;
+      --ivory-muted:#cfc7b8;
+      --gold:#c7a56b;
+      --gold-soft:#e0c89b;
+      --line:rgba(245,240,230,.16);
+      --card:rgba(255,255,255,.045);
+      --shadow:0 30px 80px rgba(0,0,0,.35);
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:"DM Sans",system-ui,-apple-system,sans-serif;
+      color:var(--ivory);
+      background:
+        radial-gradient(circle at 12% 5%, rgba(199,165,107,.11), transparent 28rem),
+        radial-gradient(circle at 90% 55%, rgba(199,165,107,.07), transparent 25rem),
+        var(--ink);
+      line-height:1.65;
+    }
+
+    a{color:inherit;text-decoration:none}
+    img{display:block;max-width:100%}
+    .container{width:min(1160px,calc(100% - 40px));margin-inline:auto}
+
+    .nav{
+      position:fixed;inset:0 0 auto 0;z-index:20;
+      border-bottom:1px solid transparent;
+      transition:.25s ease;
+    }
+    .nav.scrolled{
+      background:rgba(11,11,13,.82);
+      backdrop-filter:blur(18px);
+      border-color:var(--line);
+    }
+    .nav-inner{
+      height:78px;display:flex;align-items:center;justify-content:space-between;gap:24px
+    }
+    .brand{
+      font-family:"Playfair Display",serif;
+      font-size:1.18rem;letter-spacing:.02em
+    }
+    .brand span{color:var(--gold)}
+    .nav-links{display:flex;align-items:center;gap:28px;font-size:.92rem;color:var(--ivory-muted)}
+    .nav-links a:hover{color:var(--ivory)}
+    .nav-cta{
+      border:1px solid rgba(199,165,107,.55);
+      color:var(--gold-soft)!important;
+      padding:10px 16px;border-radius:999px
+    }
+
+    .hero{
+      min-height:100svh;
+      display:grid;align-items:center;
+      padding:120px 0 70px;
+      position:relative;overflow:hidden
+    }
+    .hero-grid{
+      display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(48px,7vw,100px);align-items:center
+    }
+    .eyebrow{
+      color:var(--gold-soft);text-transform:uppercase;letter-spacing:.23em;
+      font-size:.74rem;font-weight:600;margin:0 0 22px
+    }
+    h1,h2,h3{font-family:"Playfair Display",serif;line-height:1.03;font-weight:500}
+    h1{font-size:clamp(3.9rem,9vw,8.4rem);margin:0;letter-spacing:-.045em}
+    h1 em{font-weight:500;color:var(--gold);display:block}
+    .hero-copy{
+      color:var(--ivory-muted);font-size:clamp(1rem,1.4vw,1.14rem);
+      max-width:610px;margin:28px 0 36px
+    }
+    .hero-actions{display:flex;flex-wrap:wrap;gap:14px}
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;gap:10px;
+      min-height:50px;padding:0 20px;border-radius:999px;
+      border:1px solid var(--line);font-weight:600;font-size:.93rem;
+      transition:transform .2s ease,border-color .2s ease,background .2s ease
+    }
+    .btn:hover{transform:translateY(-2px);border-color:rgba(199,165,107,.7)}
+    .btn-primary{background:var(--gold);color:#17120b;border-color:var(--gold)}
+    .btn-primary:hover{background:var(--gold-soft)}
+    .btn svg{width:18px;height:18px}
+
+    .portrait-wrap{position:relative}
+    .portrait{
+      min-height:650px;border-radius:220px 220px 24px 24px;
+      overflow:hidden;position:relative;border:1px solid rgba(245,240,230,.13);
+      box-shadow:var(--shadow);
+      background:
+        linear-gradient(180deg,rgba(255,255,255,.04),rgba(0,0,0,.08)),
+        radial-gradient(circle at 50% 28%, rgba(224,200,155,.28), transparent 24%),
+        linear-gradient(145deg,#272229,#100f12 62%);
+    }
+    .portrait::before{
+      content:"";position:absolute;width:54%;aspect-ratio:.72;left:23%;top:20%;
+      border-radius:48% 48% 42% 42%;
+      background:linear-gradient(155deg,#d7c1a6 0 27%,#2b2020 28% 44%,#0a090b 45%);
+      filter:saturate(.55);opacity:.9
+    }
+    .portrait::after{
+      content:"ADD ARTIST PHOTO";position:absolute;left:50%;bottom:32px;transform:translateX(-50%);
+      border:1px solid rgba(255,255,255,.2);background:rgba(0,0,0,.32);
+      backdrop-filter:blur(12px);padding:10px 16px;border-radius:999px;
+      letter-spacing:.16em;font-size:.66rem;color:rgba(255,255,255,.75);white-space:nowrap
+    }
+    .music-note{
+      position:absolute;right:-22px;top:21%;
+      width:94px;aspect-ratio:1;border-radius:50%;display:grid;place-items:center;
+      background:var(--ivory);color:var(--ink);font-family:"Playfair Display",serif;
+      font-size:2.4rem;box-shadow:0 16px 50px rgba(0,0,0,.35)
+    }
+
+    section{padding:110px 0;border-top:1px solid var(--line)}
+    .section-head{
+      display:grid;grid-template-columns:.7fr 1.3fr;gap:60px;align-items:start;margin-bottom:56px
+    }
+    .section-number{color:var(--gold);font-size:.82rem;letter-spacing:.17em}
+    h2{font-size:clamp(2.6rem,5.5vw,5.1rem);letter-spacing:-.035em;margin:0 0 22px}
+    .lead{color:var(--ivory-muted);font-size:1.06rem;max-width:700px;margin:0}
+
+    .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+    .panel{
+      background:var(--card);border:1px solid var(--line);border-radius:24px;padding:34px
+    }
+    .panel h3{font-size:1.8rem;margin:0 0 15px}
+    .panel p{margin:0;color:var(--ivory-muted)}
+    .facts{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:24px;overflow:hidden;margin-top:22px}
+    .fact{background:var(--ink-soft);padding:26px}
+    .fact strong{font-family:"Playfair Display",serif;font-size:1.7rem;font-weight:500;display:block;color:var(--gold-soft)}
+    .fact span{font-size:.82rem;color:var(--ivory-muted)}
+
+    .video-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+    .video-card{
+      border-radius:22px;overflow:hidden;border:1px solid var(--line);background:var(--card);
+      transition:transform .25s ease,border-color .25s ease
+    }
+    .video-card:hover{transform:translateY(-5px);border-color:rgba(199,165,107,.5)}
+    .thumb{
+      aspect-ratio:16/10;display:grid;place-items:center;position:relative;overflow:hidden;
+      background:
+        linear-gradient(140deg,rgba(199,165,107,.18),transparent 50%),
+        repeating-linear-gradient(90deg,#1a181b 0 11%,#ece5d7 11% 17%,#1a181b 17% 22%);
+    }
+    .thumb::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 30%,rgba(0,0,0,.55))}
+    .play{
+      position:relative;z-index:1;width:58px;height:58px;border-radius:50%;
+      display:grid;place-items:center;background:rgba(245,240,230,.92);color:#111;
+      box-shadow:0 10px 28px rgba(0,0,0,.28)
+    }
+    .play svg{width:22px;margin-left:3px}
+    .video-meta{padding:22px}
+    .video-meta small{color:var(--gold);letter-spacing:.12em;text-transform:uppercase}
+    .video-meta h3{font-size:1.35rem;line-height:1.2;margin:8px 0 0}
+
+    .quote{
+      padding:80px 0 20px;text-align:center;max-width:900px;margin:auto
+    }
+    .quote p{
+      font-family:"Playfair Display",serif;font-size:clamp(2rem,4vw,4rem);
+      line-height:1.2;margin:0;color:var(--ivory)
+    }
+    .quote span{display:block;color:var(--gold);font-size:2rem;margin-top:20px}
+
+    .cta{
+      text-align:center;padding:105px 24px;border:1px solid var(--line);border-radius:30px;
+      background:
+        radial-gradient(circle at 50% 0%,rgba(199,165,107,.2),transparent 38rem),
+        var(--card)
+    }
+    .cta h2{max-width:850px;margin:0 auto 20px}
+    .cta p{color:var(--ivory-muted);margin:0 auto 30px;max-width:600px}
+
+    footer{padding:38px 0 48px;color:#918a80;font-size:.86rem}
+    .footer-inner{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+
+    .reveal{opacity:0;transform:translateY(24px);transition:.8s cubic-bezier(.2,.75,.2,1)}
+    .reveal.visible{opacity:1;transform:none}
+
+    @media (max-width:900px){
+      .nav-links a:not(.nav-cta){display:none}
+      .hero{padding-top:110px}
+      .hero-grid,.section-head,.about-grid{grid-template-columns:1fr}
+      .hero-grid{gap:55px}
+      h1{font-size:clamp(4rem,19vw,7rem)}
+      .portrait{min-height:560px;max-width:620px;margin:auto}
+      .section-head{gap:18px}
+      .video-grid{grid-template-columns:1fr 1fr}
+    }
+    @media (max-width:620px){
+      .container{width:min(100% - 26px,1160px)}
+      .nav-inner{height:68px}
+      .brand{font-size:1rem}
+      .nav-cta{padding:8px 12px}
+      .hero{min-height:auto;padding-bottom:55px}
+      .portrait{min-height:470px;border-radius:150px 150px 20px 20px}
+      .music-note{width:70px;right:6px;font-size:1.9rem}
+      section{padding:82px 0}
+      .video-grid{grid-template-columns:1fr}
+      .facts{grid-template-columns:1fr}
+      .hero-actions{flex-direction:column;align-items:stretch}
+      .btn{width:100%}
+    }
+  </style>
+</head>
+<body>
+  <header class="nav" id="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="#home">Artist Name <span>♪</span></a>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="#about">About</a>
+        <a href="#performances">Performances</a>
+        <a class="nav-cta" href="#youtube">YouTube</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="container hero-grid">
+        <div>
+          <p class="eyebrow">Concert Pianist · Artist Portfolio</p>
+          <h1>Music, <em>felt deeply.</em></h1>
+          <p class="hero-copy">
+            A refined digital home for a pianist whose performances blend precision, emotion and timeless classical expression.
+            Replace this text with her real biography when you send it.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#performances">
+              Watch performances
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a class="btn" href="#about">Discover her story</a>
+          </div>
+        </div>
+
+        <div class="portrait-wrap reveal">
+          <div class="portrait" role="img" aria-label="Placeholder for the pianist's portrait"></div>
+          <div class="music-note" aria-hidden="true">♪</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="container">
+        <div class="section-head reveal">
+          <div class="section-number">01 / ABOUT</div>
+          <div>
+            <h2>Behind the music.</h2>
+            <p class="lead">
+              This section will introduce her training, artistic story, favorite composers, performances, awards and the feeling she wants listeners to take away from her music.
+            </p>
+          </div>
+        </div>
+
+        <div class="about-grid">
+          <article class="panel reveal">
+            <h3>Artist biography</h3>
+            <p>
+              Artist Name is a pianist devoted to expressive storytelling through the keyboard. Her repertoire moves from intimate lyrical works to powerful concert pieces, bringing a personal voice to every performance.
+            </p>
+          </article>
+          <article class="panel reveal">
+            <h3>Artistic approach</h3>
+            <p>
+              Her playing centers on clarity, warmth and emotional honesty. Each work is treated not simply as notes on a page, but as a conversation between composer, performer and audience.
+            </p>
+          </article>
+        </div>
+
+        <div class="facts reveal">
+          <div class="fact"><strong>Classical</strong><span>Primary repertoire</span></div>
+          <div class="fact"><strong>Live</strong><span>Performance focused</span></div>
+          <div class="fact"><strong>Worldwide</strong><span>Digital audience</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="performances">
+      <div class="container">
+        <div class="section-head reveal">
+          <div class="section-number">02 / PERFORMANCES</div>
+          <div>
+            <h2>Selected performances.</h2>
+            <p class="lead">These are prototype cards. When you send her real YouTube videos, they can become embedded playable performances with the correct titles and thumbnails.</p>
+          </div>
+        </div>
+
+        <div class="video-grid">
+          <article class="video-card reveal">
+            <div class="thumb">
+              <div class="play" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+            </div>
+            <div class="video-meta"><small>Performance 01</small><h3>Chopin — Nocturne</h3></div>
+          </article>
+
+          <article class="video-card reveal">
+            <div class="thumb">
+              <div class="play" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+            </div>
+            <div class="video-meta"><small>Performance 02</small><h3>Rachmaninoff — Prelude</h3></div>
+          </article>
+
+          <article class="video-card reveal">
+            <div class="thumb">
+              <div class="play" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+            </div>
+            <div class="video-meta"><small>Performance 03</small><h3>Debussy — Clair de Lune</h3></div>
+          </article>
+        </div>
+
+        <div class="quote reveal">
+          <p>“Where words end, music begins.”</p>
+          <span>♪</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="youtube">
+      <div class="container">
+        <div class="cta reveal">
+          <p class="eyebrow">Watch more</p>
+          <h2>Continue listening on YouTube.</h2>
+          <p>Once you send her channel link, this button will open the real channel and the performance cards above can link directly to her videos.</p>
+          <a class="btn btn-primary" href="#" onclick="event.preventDefault(); alert('Prototype: add her YouTube channel link here.');">
+            YouTube channel
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.6 7.2c-.2-1.4-1.1-2.4-2.5-2.6C17.3 4.3 14.7 4.2 12 4.2s-5.3.1-7.1.4C3.5 4.8 2.6 5.8 2.4 7.2 2.1 8.6 2 10.3 2 12s.1 3.4.4 4.8c.2 1.4 1.1 2.4 2.5 2.6 1.8.3 4.4.4 7.1.4s5.3-.1 7.1-.4c1.4-.2 2.3-1.2 2.5-2.6.3-1.4.4-3.1.4-4.8s-.1-3.4-.4-4.8ZM10 15.5v-7l6 3.5-6 3.5Z"/></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <span>© <span id="year"></span> Artist Name. All rights reserved.</span>
+      <span>Prototype pianist portfolio</span>
+    </div>
+  </footer>
+
+  <script>
+    const nav = document.getElementById('nav');
+    const reveals = document.querySelectorAll('.reveal');
+
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 20);
+    }, { passive: true });
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    reveals.forEach(el => observer.observe(el));
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
